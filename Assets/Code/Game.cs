@@ -38,16 +38,26 @@ public class Game : MonoBehaviour {
 		return new Vector3(x*width+X, Y, Z-(y*height));
 	}
 	
+	Card CreateCard(string name, string expansion){
+		GameObject cardObject = MonoBehaviour.Instantiate(Resources.Load("Prefabs/card")) as GameObject;
+		Material[] materials = cardObject.renderer.materials;
+		Texture2D tex = (Texture2D) (Resources.Load("textures_"+Settings.LANG+"/"+expansion+"/"+name));
+		materials[1].SetTexture("_MainTex", tex);
+		cardObject.renderer.materials = materials;
+		
+		return cardObject.GetComponent(typeof(Card)) as Card;
+	}
+	
 	void InitializeBaseStacks(){
 		//Initialize the base stack first thing.
 //		CardStack big_stack = new CardStack(AbsolutePosition(3,3));
-		for (int i=0; i<30; i++) bigStack.Push(new Card("curse", "base"));
-		for (int i=0; i<12; i++) bigStack.Push(new Card("province", "common"));
-		for (int i=0; i<12; i++) bigStack.Push(new Card("duchy", "common"));
-		for (int i=0; i<24; i++) bigStack.Push(new Card("estate", "common"));
-		for (int i=0; i<30; i++) bigStack.Push(new Card("gold", "common"));
-		for (int i=0; i<40; i++) bigStack.Push(new Card("silver", "common"));
-		for (int i=0; i<60; i++) bigStack.Push(new Card("copper", "common"));
+		for (int i=0; i<30; i++) bigStack.Push(CreateCard("curse", "base"));
+		for (int i=0; i<12; i++) bigStack.Push(CreateCard("province", "common"));
+		for (int i=0; i<12; i++) bigStack.Push(CreateCard("duchy", "common"));
+		for (int i=0; i<24; i++) bigStack.Push(CreateCard("estate", "common"));
+		for (int i=0; i<30; i++) bigStack.Push(CreateCard("gold", "common"));
+		for (int i=0; i<40; i++) bigStack.Push(CreateCard("silver", "common"));
+		for (int i=0; i<60; i++) bigStack.Push(CreateCard("copper", "common"));
 			
 		eventManager.doFlyCardsFromStackToStack(bigStack, copperStack, 60);
 		for (int i=0; i<60; i++)
@@ -93,31 +103,6 @@ public class Game : MonoBehaviour {
 	IEnumerator DrawCardFromStack(CardStack stack, float delay){
 		yield return new WaitForSeconds(delay);
 		hand.DrawCard(stack.Pop());
-	}
-	
-	//Update is called once per frame
-	
-	RaycastHit hit = new RaycastHit();
-	bool show_card_info = false;
-	
-	void Update () {
-		if (show_card_info && Input.GetMouseButtonUp(1)){
-			show_card_info = false;
-		}
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		if(Input.GetMouseButtonDown(1) && Physics.Raycast(ray,out hit, 100.0f) ){
-			print(hit.collider.name);
-			Material mat = hit.collider.transform.gameObject.renderer.materials[1]; 
-			currentCard = (Texture2D) mat.mainTexture;
-			show_card_info = true;
-		}
-	}
-	
-	Texture2D currentCard;
-	void OnGUI() {
-		if (show_card_info == true){
-			GUI.Box(new Rect(Screen.width/2-326/2,Screen.height/2-503/2,326,503), currentCard);
-		}
 	}
 }
 
