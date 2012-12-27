@@ -47,9 +47,17 @@
      <Compile Include="Assets\Code\Cam.cs" />
      <Compile Include="Assets\Code\Card.cs" />
      <Compile Include="Assets\Code\CardStack.cs" />
+     <Compile Include="Assets\Code\Cards\common\Copper.cs" />
+     <Compile Include="Assets\Code\Cards\common\Curse.cs" />
+     <Compile Include="Assets\Code\Cards\common\Duchy.cs" />
+     <Compile Include="Assets\Code\Cards\common\Estate.cs" />
+     <Compile Include="Assets\Code\Cards\common\Gold.cs" />
+     <Compile Include="Assets\Code\Cards\common\Province.cs" />
+     <Compile Include="Assets\Code\Cards\common\Silver.cs" />
      <Compile Include="Assets\Code\EventManager.cs" />
      <Compile Include="Assets\Code\Game.cs" />
      <Compile Include="Assets\Code\Hand.cs" />
+     <Compile Include="Assets\Code\IPlayer.cs" />
      <Compile Include="Assets\Code\SoundEventListener.cs" />
      <Compile Include="Assets\iTween\Plugins\iTween.cs" />
      <Compile Include="Assets\iTween\Sample\MoveSample.cs" />

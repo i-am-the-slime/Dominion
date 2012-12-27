@@ -6,7 +6,15 @@ public class CardStack : MonoBehaviour {
 	private Stack stack = new Stack();
 	public bool faceUp;
 	public bool untidy;
-	
+    public bool canBeBought;
+    public Hand hand;
+
+    public void CardClicked(Card card) 
+    {
+        if (!canBeBought) return;
+        hand.BuyCard(this);
+    }
+
 	public Card Peek(){
 		return this.stack.Peek() as Card;
 	}
@@ -39,10 +47,12 @@ public class CardStack : MonoBehaviour {
 		iTween.RotateTo(card.gameObject, rot , 1.0f);
 		
 		stack.Push(card);
+        card.CardClicked += CardClicked;
 	}
 	
-	public void Shuffle() {
+	public IEnumerator Shuffle() {
 		List<Card> tempList = new List<Card>();
+        audio.Play();
 		
 		while (!IsEmpty) {
 			tempList.Add(Pop());
@@ -53,6 +63,8 @@ public class CardStack : MonoBehaviour {
 			tempList.Remove(card);
 			Push(card, true);
 		}
+
+        yield return new WaitForSeconds(audio.clip.length);
 	}
 	
 	public void MoveAllCardsToStack(CardStack stack, bool flat) {
@@ -66,7 +78,9 @@ public class CardStack : MonoBehaviour {
 	}
 	
 	public Card Pop() {
-		return this.stack.Pop() as Card;
+        Card card = stack.Pop() as Card;
+        card.CardClicked -= CardClicked;
+		return card;
 	}
 	
 	public int Count {
@@ -74,10 +88,12 @@ public class CardStack : MonoBehaviour {
 			return stack.Count;
 		}
 	}
-	
-	public bool IsEmpty {
-		get {
-			return stack.Count <= 0;
-		}
-	}
+
+    public bool IsEmpty
+    {
+        get
+        {
+            return stack.Count <= 0;
+        }
+    }
 }

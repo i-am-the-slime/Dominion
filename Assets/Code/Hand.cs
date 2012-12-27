@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Hand : MonoBehaviour {
+public class Hand : MonoBehaviour, IPlayer{
 	public CardStack playedStack;
 	public CardStack drawStack;
 	public CardStack rubbishStack;
@@ -9,7 +9,26 @@ public class Hand : MonoBehaviour {
 	private IList cards = new ArrayList();
 	private const float cardWidth = 1.0f;
 
-	public IEnumerator DrawCard(Card card){
+    private int money = 0;
+    private int buys = 1;
+    private int actions = 1;
+
+    public void IncreaseMoney(int by) 
+    {
+        money += by;
+    }
+
+    public void IncreaseActions(int by)
+    {
+        actions += by;
+    }
+
+    public void IncreaseBuys(int by)
+    {
+        buys += by;
+    }
+
+    public IEnumerator DrawCard(Card card){
 		cards.Add(card);
 		card.CardClicked += OnCardClicked;
 		ReorderCards();
@@ -32,10 +51,13 @@ public class Hand : MonoBehaviour {
 	}
 	
 	public void OnCardClicked(Card card) {
-		card.CardClicked -= OnCardClicked;
-		cards.Remove(card);
-		ReorderCards();
-		playedStack.Push(card);
+        if (card.IsPlayable()) {
+            card.Play(this);
+            card.CardClicked -= OnCardClicked;
+		    cards.Remove(card);
+		    ReorderCards();
+		    playedStack.Push(card);
+        }
 	}
 	
 	public IEnumerator EndTurn() {
@@ -52,6 +74,13 @@ public class Hand : MonoBehaviour {
 		
 		yield return new WaitForSeconds(0.8f);
 	}
+
+    public void BeginNewTurn() 
+    {
+        money = 0;
+        actions = 1;
+        buys = 1;
+    }
 	
 	public IEnumerator DrawNewCards(int number) {
 		// If there are not enough cards, recycle the rubbish stack
@@ -63,7 +92,7 @@ public class Hand : MonoBehaviour {
 			
 			rubbishStack.MoveAllCardsToStack(drawStack, false);
 			yield return new WaitForSeconds(1.0f);
-			drawStack.Shuffle();
+			yield return StartCoroutine(drawStack.Shuffle());
 			
 			for (int i = 0; i < number-drawable; i++) {
 				yield return StartCoroutine(DrawCard(drawStack.Pop()));
@@ -77,4 +106,21 @@ public class Hand : MonoBehaviour {
 		
 		yield return new WaitForSeconds(0.5f);
 	}
+
+
+    public int Money
+    {
+        get { return money; }
+    }
+
+    public void BuyCard(CardStack cardStack)
+    {
+        Card card = cardStack.Peek();
+        if (card.GetCost() <= money && buys > 0)
+        {
+            rubbishStack.Push(cardStack.Pop());
+            buys--;
+            money -= card.GetCost();
+        }
+    }
 }

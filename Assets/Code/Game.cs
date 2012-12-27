@@ -26,13 +26,13 @@ public class Game : MonoBehaviour {
 	IEnumerator Start() {
 		//Initialize the base stack first thing.
 //		CardStack big_stack = new CardStack(AbsolutePosition(3,3));
-		for (int i=0; i<30; i++) bigStack.Push(CreateCard("curse", "base"));
-		for (int i=0; i<12; i++) bigStack.Push(CreateCard("province", "common"));
-		for (int i=0; i<12; i++) bigStack.Push(CreateCard("duchy", "common"));
-		for (int i=0; i<24; i++) bigStack.Push(CreateCard("estate", "common"));
-		for (int i=0; i<30; i++) bigStack.Push(CreateCard("gold", "common"));
-		for (int i=0; i<40; i++) bigStack.Push(CreateCard("silver", "common"));
-		for (int i=0; i<60; i++) bigStack.Push(CreateCard("copper", "common"));
+		for (int i=0; i<30; i++) bigStack.Push(CreateCard("Curse", "base"));
+		for (int i=0; i<12; i++) bigStack.Push(CreateCard("Province", "common"));
+		for (int i=0; i<12; i++) bigStack.Push(CreateCard("Duchy", "common"));
+		for (int i=0; i<24; i++) bigStack.Push(CreateCard("Estate", "common"));
+		for (int i=0; i<30; i++) bigStack.Push(CreateCard("Gold", "common"));
+		for (int i=0; i<40; i++) bigStack.Push(CreateCard("Silver", "common"));
+		for (int i=0; i<60; i++) bigStack.Push(CreateCard("Copper", "common"));
 		
 		// Money, money, money
 		for (int i=0; i<60; i++) {
@@ -78,9 +78,7 @@ public class Game : MonoBehaviour {
 			drawStack.Push(estateStack.Pop());
 		}
 		
-		drawStack.Shuffle();
-		
-		yield return new WaitForSeconds(0.5f);
+		yield return StartCoroutine(drawStack.Shuffle());
 		yield return StartCoroutine(hand.DrawNewCards(5));
 	}
 	
@@ -91,11 +89,12 @@ public class Game : MonoBehaviour {
 	Card CreateCard(string name, string expansion){
 		GameObject cardObject = MonoBehaviour.Instantiate(Resources.Load("Prefabs/card")) as GameObject;
 		Material[] materials = cardObject.renderer.materials;
-		Texture2D tex = (Texture2D) (Resources.Load("textures_"+Settings.LANG+"/"+expansion+"/"+name));
+		Texture2D tex = (Texture2D) (Resources.Load("textures_"+Settings.LANG+"/"+expansion+"/"+name.ToLower()));
 		materials[1].SetTexture("_MainTex", tex);
 		cardObject.renderer.materials = materials;
-		
-		return cardObject.GetComponent(typeof(Card)) as Card;
+
+        cardObject.AddComponent(name);
+        return cardObject.GetComponent<Card>();
 	}
 	
 	IEnumerator PlayIn(float secs){
@@ -134,6 +133,7 @@ public class Game : MonoBehaviour {
 		yield return StartCoroutine(hand.EndTurn());
 		playedStack.MoveAllCardsToStack(rubbishStack, true);
 		yield return new WaitForSeconds(1.0f);
+        hand.BeginNewTurn();
 		yield return StartCoroutine(hand.DrawNewCards(5));
 	}
 }
