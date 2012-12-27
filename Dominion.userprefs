@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Code\Cam.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Code\CardStack.cs">
     <Files>
-      <File FileName="Assets\Code\Game.cs" Line="27" Column="1" />
+      <File FileName="Assets\Code\Game.cs" Line="84" Column="24" />
       <File FileName="Assets\Code\Cam.cs" Line="25" Column="2" />
       <File FileName="Assets\Code\EventManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Code\CardStack.cs" Line="4" Column="41" />
-      <File FileName="Assets\iTween\Plugins\iTween.cs" Line="6740" Column="1" />
+      <File FileName="Assets\Code\Card.cs" Line="10" Column="60" />
+      <File FileName="Assets\Code\Hand.cs" Line="22" Column="40" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -15,15 +15,12 @@ public class Game : MonoBehaviour {
 	public CardStack bigStack;
 	private CardStack[] chosen_cards_stack;
 	// Hand cards
-	private Hand hand;
+	public Hand hand;
 	// Event Manager
 	public EventManager eventManager;
 	// Camera
 	public Cam cam;
-
-	void Awake () {
-		this.hand = new Hand();
-	}
+	private const float DELAY = 0.025f; // TMP: was 0.15f
 	
 	// Use this for initialization
 	void Start () {
@@ -44,16 +41,14 @@ public class Game : MonoBehaviour {
 	void InitializeBaseStacks(){
 		//Initialize the base stack first thing.
 //		CardStack big_stack = new CardStack(AbsolutePosition(3,3));
-		for (int i=0; i<30; i++) bigStack.Push(new Card("curse", "base", false));
-		for (int i=0; i<12; i++) bigStack.Push(new Card("province", "common", false));
-		for (int i=0; i<12; i++) bigStack.Push(new Card("duchy", "common", false));
-		for (int i=0; i<24; i++) bigStack.Push(new Card("estate", "common", false));
-		for (int i=0; i<30; i++) bigStack.Push(new Card("gold", "common", false));
-		for (int i=0; i<40; i++) bigStack.Push(new Card("silver", "common", false));
-		for (int i=0; i<60; i++) bigStack.Push(new Card("copper", "common", false));
-		
-		
-		float DELAY = 0.15f;	
+		for (int i=0; i<30; i++) bigStack.Push(new Card("curse", "base"));
+		for (int i=0; i<12; i++) bigStack.Push(new Card("province", "common"));
+		for (int i=0; i<12; i++) bigStack.Push(new Card("duchy", "common"));
+		for (int i=0; i<24; i++) bigStack.Push(new Card("estate", "common"));
+		for (int i=0; i<30; i++) bigStack.Push(new Card("gold", "common"));
+		for (int i=0; i<40; i++) bigStack.Push(new Card("silver", "common"));
+		for (int i=0; i<60; i++) bigStack.Push(new Card("copper", "common"));
+			
 		eventManager.doFlyCardsFromStackToStack(bigStack, copperStack, 60);
 		for (int i=0; i<60; i++)
 			StartCoroutine(PutCardOnStack(bigStack.Pop(), copperStack, i*DELAY));
@@ -71,12 +66,7 @@ public class Game : MonoBehaviour {
 			StartCoroutine(PutCardOnStack(bigStack.Pop(), curseStack, i*DELAY + 178*DELAY));
 		//Wait until this is done
 		//Make the draw stack
-		/*for (int i=0; i<8; i++)
-			StartCoroutine(PutCardOnStack(copper_stack.Pop(), draw_stack, i*DELAY + 208*DELAY));
-		for (int i=0; i<2; i++)
-			StartCoroutine(PutCardOnStack(estate_stack.Pop(), draw_stack, i*DELAY + 216*DELAY));
-		for (int i=0; i<5; i++)
-			StartCoroutine(DrawCardFromStack(draw_stack, i*DELAY + 218*DELAY));*/
+		StartCoroutine(SetUpDrawStack(155*DELAY));
 	}
 	
 	IEnumerator PlayIn(float secs){
@@ -87,6 +77,17 @@ public class Game : MonoBehaviour {
 	IEnumerator PutCardOnStack(Card card, CardStack stack, float delay){
 		yield return new WaitForSeconds(delay);
 		stack.Push (card);
+	}
+	
+	IEnumerator SetUpDrawStack(float delay){
+		yield return new WaitForSeconds(delay);
+		float tmpdelay = 0.5f;
+		for (int i=0; i<7; i++)
+			StartCoroutine(PutCardOnStack(copperStack.Pop(), drawStack, i*tmpdelay));
+		for (int i=0; i<3; i++)
+			StartCoroutine(PutCardOnStack(estateStack.Pop(), drawStack, i*tmpdelay + 7*tmpdelay));
+		for (int i=0; i<5; i++)
+			StartCoroutine(DrawCardFromStack(drawStack, i*tmpdelay + 10*tmpdelay));
 	}
 	
 	IEnumerator DrawCardFromStack(CardStack stack, float delay){

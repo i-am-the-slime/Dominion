@@ -58,9 +58,8 @@
      <None Include="Assets\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\Plugins\HOTween.xml" />
      <None Include="Assets\Plugins\HOTween_License.txt" />
-     <None Include="Assets\Resources\HOTween\HOTween_License.txt" />
  <Reference Include="HOTween">
- <HintPath>Assets\Resources\HOTween\HOTween.dll</HintPath>
+ <HintPath>Assets\Plugins\HOTween.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
