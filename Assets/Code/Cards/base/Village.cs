@@ -7,9 +7,10 @@ public class Village : Card
     public override int Score { get { return 0; } }
     public override CardFlags Flags { get { return CardFlags.Action; } }
 
-    public override void Play(IPlayer player)
+    public override IEnumerator Play(IPlayer player)
     {
         player.IncreaseActions(2);
         player.DrawCards(1);
+        return null;
     } 
 }

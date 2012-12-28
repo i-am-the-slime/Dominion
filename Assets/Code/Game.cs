@@ -27,8 +27,12 @@ public class Game : MonoBehaviour {
     {
         //Initialize the base stack first thing.
 //		CardStack big_stack = new CardStack(AbsolutePosition(3,3));
-        for (int i = 0; i < 10; i++) bigStack.Push(CreateCard("Adventurer", "base"));
-        for (int i = 0; i < 10; i++) bigStack.Push(CreateCard("Village", "base"));
+        string[] chosenCards = new string[]{"Village", "Adventurer", "Bureaucrat" };
+        for (int j = 0; j < chosenCards.Length; j++)
+        {
+            for (int i = 0; i < 10; i++) bigStack.Push(CreateCard(chosenCards[j], "base"));
+        }
+        
         for (int i = 0; i < 30; i++) bigStack.Push(CreateCard("Curse", "base"));
         for (int i = 0; i < 12; i++) bigStack.Push(CreateCard("Province", "common"));
         for (int i = 0; i < 12; i++) bigStack.Push(CreateCard("Duchy", "common"));
@@ -76,17 +80,15 @@ public class Game : MonoBehaviour {
             yield return new WaitForSeconds(DELAY);
             curseStack.Push(bigStack.Pop());
         }
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < chosenCards.Length; i++)
         {
-            yield return new WaitForSeconds(DELAY);
-            chosenCardStacks[0].Push(bigStack.Pop());
+            for (int j = 0; j < 10; j++)
+            {
+                yield return new WaitForSeconds(DELAY);
+                chosenCardStacks[i].Push(bigStack.Pop());
+            }
         }
-        for (int i = 0; i < 10; i++)
-        {
-            yield return new WaitForSeconds(DELAY);
-            chosenCardStacks[1].Push(bigStack.Pop());
-        }
-
+      
         // Build draw stack
         float tmpdelay = 0.25f;
         for (int i = 0; i < 7; i++)
@@ -104,7 +106,7 @@ public class Game : MonoBehaviour {
         for (int i = 0; i < 3; i++)
         {
             yield return new WaitForSeconds(tmpdelay);
-            drawStack.Push(chosenCardStacks[1].Pop());
+            drawStack.Push(chosenCardStacks[0].Pop());
         }
         // END TESTING
 		

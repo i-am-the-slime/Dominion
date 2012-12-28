@@ -12,7 +12,8 @@ public abstract class Card : MonoBehaviour {
     public enum CardFlags {
         Action = 1,
         Treasure = 2,
-        Victory = 4
+        Victory = 4,
+        Attack = 8
     }
 
     public abstract int Cost { get; }
@@ -46,8 +47,8 @@ public abstract class Card : MonoBehaviour {
 		}
 	}
 
-    public virtual void Play(IPlayer player)
+    public virtual IEnumerator Play(IPlayer player)
     {
-        
+        return null;
     }
 }

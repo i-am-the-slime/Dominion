@@ -8,9 +8,10 @@ public class Adventurer : Card
     public override CardFlags Flags { get { return CardFlags.Action; } }
     private int treasureCardsFound = 0;
 
-    public override void Play(IPlayer player)
+    public override IEnumerator Play(IPlayer player)
     {
         StartCoroutine(player.RevealCards(Callback));
+        return null;
     }
 
     public bool Callback(Card card, Hand hand)

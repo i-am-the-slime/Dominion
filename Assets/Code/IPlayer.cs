@@ -7,19 +7,11 @@ public interface IPlayer {
     void IncreaseMoney(int by);
     void IncreaseActions(int by);
     void IncreaseBuys(int by);
-    int Money
-    {
-        get;
-    }
-    int Buys
-    {
-        get;
-    }
-    int Actions
-    {
-        get;
-    }
+    int Money { get; }
+    int Buys { get; }
+    int Actions { get; }
+    CardStack SilverStack { get; }
+    CardStack DrawStack { get; }
     void DrawCards(int number);
-
     IEnumerator RevealCards(RevealCardsCallback callback);
 }

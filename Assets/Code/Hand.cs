@@ -3,8 +3,21 @@ using System.Collections;
 
 public class Hand : MonoBehaviour, IPlayer{
 	public CardStack playedStack;
-	public CardStack drawStack;
-	public CardStack rubbishStack;
+    public CardStack rubbishStack;
+    public CardStack drawStack;
+    public CardStack silverStack;
+
+    public CardStack DrawStack
+    {
+        get { return drawStack; }
+        set { drawStack = value; }
+    }
+
+    public CardStack SilverStack
+    {
+        get { return silverStack; }
+        set { silverStack = value; }
+    }
 	
 	private IList cards = new ArrayList();
 	private const float cardWidth = 0.7f;
@@ -13,7 +26,9 @@ public class Hand : MonoBehaviour, IPlayer{
     private int buys = 1;
     private int actions = 1;
     private bool buyPhase = false;
-    
+
+    public bool CardPlaying = false;
+
     public void IncreaseMoney(int by) 
     {
         money += by;
@@ -52,13 +67,13 @@ public class Hand : MonoBehaviour, IPlayer{
 	}
 	
 	public void OnCardClicked(Card card) {
-        if ((card.Flags & Card.CardFlags.Action) == Card.CardFlags.Action && !buyPhase) {
+        if ((card.Flags & Card.CardFlags.Action) == Card.CardFlags.Action && !buyPhase && actions>0) {
             card.CardClicked -= OnCardClicked;
 		    cards.Remove(card);
 		    ReorderCards();
             playedStack.Push(card);
             actions--;
-            card.Play(this);
+            StartCoroutine(card.Play(this));
         }
         else if ((card.Flags & Card.CardFlags.Treasure) == Card.CardFlags.Treasure)
         {
@@ -100,23 +115,23 @@ public class Hand : MonoBehaviour, IPlayer{
 	
 	public IEnumerator DrawNewCards(int number) {
 		// If there are not enough cards, recycle the rubbish stack
-		if (drawStack.Count < number) {
-			int drawable = drawStack.Count;
+		if (DrawStack.Count < number) {
+			int drawable = DrawStack.Count;
 			for (int i = 0; i < drawable; i++) {
-				yield return StartCoroutine(DrawCard(drawStack.Pop()));
+				yield return StartCoroutine(DrawCard(DrawStack.Pop()));
 			}
 			
-			rubbishStack.MoveAllCardsToStack(drawStack, false);
+			rubbishStack.MoveAllCardsToStack(DrawStack, false);
 			yield return new WaitForSeconds(1.0f);
-			yield return StartCoroutine(drawStack.Shuffle());
+			yield return StartCoroutine(DrawStack.Shuffle());
 			
 			for (int i = 0; i < number-drawable; i++) {
-				yield return StartCoroutine(DrawCard(drawStack.Pop()));
+				yield return StartCoroutine(DrawCard(DrawStack.Pop()));
 			}
 		}
 		else {
 			for(int i=0; i<number; i++){
-				yield return StartCoroutine(DrawCard(drawStack.Pop()));
+				yield return StartCoroutine(DrawCard(DrawStack.Pop()));
 			}
 		}
 		
@@ -128,17 +143,17 @@ public class Hand : MonoBehaviour, IPlayer{
         yield return HideHand();
         while (true)
         {
-            if (drawStack.Count == 0)
+            if (DrawStack.Count == 0)
             {
                 if (rubbishStack.Count == 0)
                 {
                     break;
                 }
-                rubbishStack.MoveAllCardsToStack(drawStack, false);
-                yield return drawStack.Shuffle();
-                yield return new WaitForSeconds(drawStack.audio.clip.length);
+                rubbishStack.MoveAllCardsToStack(DrawStack, false);
+                yield return DrawStack.Shuffle();
+                yield return new WaitForSeconds(DrawStack.audio.clip.length);
             }
-            Card card = drawStack.Pop();
+            Card card = DrawStack.Pop();
             iTween.MoveTo(card.gameObject, new Vector3(-37, 72.57f, -495.44f), 0.5f);
             iTween.RotateTo(card.gameObject, new Vector3(320.0f, 180.0f, 180.0f), 0.5f);
             yield return new WaitForSeconds(0.5f);
