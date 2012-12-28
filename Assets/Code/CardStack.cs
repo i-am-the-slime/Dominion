@@ -25,7 +25,7 @@ public class CardStack : MonoBehaviour {
 	
 	public void Push(Card card, bool flat){
 		Vector3 s = new Vector3(card.transform.position.x, card.transform.position.y, card.transform.position.z);
-		Vector3 z = transform.position + new Vector3(0.0f, this.stack.Count*0.01f, 0.0f);
+		Vector3 z = transform.position + new Vector3(0.0f, this.stack.Count*0.015f, 0.0f);
 		Vector3 intermediate = s + 0.5f *(z-s);
 		intermediate.y+=1.0f;
 		
