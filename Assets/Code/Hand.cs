@@ -52,11 +52,11 @@ public class Hand : MonoBehaviour, IPlayer{
 	
 	public void OnCardClicked(Card card) {
         if (card.IsPlayable()) {
-            card.Play(this);
             card.CardClicked -= OnCardClicked;
 		    cards.Remove(card);
 		    ReorderCards();
-		    playedStack.Push(card);
+            playedStack.Push(card);
+            card.Play(this);
         }
 	}
 	
@@ -80,6 +80,11 @@ public class Hand : MonoBehaviour, IPlayer{
         money = 0;
         actions = 1;
         buys = 1;
+    }
+
+    public void DrawCards(int number)
+    {
+        StartCoroutine(DrawNewCards(number));
     }
 	
 	public IEnumerator DrawNewCards(int number) {

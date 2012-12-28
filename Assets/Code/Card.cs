@@ -6,7 +6,6 @@ public delegate void CardClickHandler(Card card);
 public abstract class Card : MonoBehaviour {
 	public event CardClickHandler CardClicked;
 	private bool showCardInfo = false;
-    private int cost = 0;
 	
 	public void OnMouseDown() {
 		if (CardClicked != null) {

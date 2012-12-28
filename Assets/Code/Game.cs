@@ -15,7 +15,7 @@ public class Game : MonoBehaviour {
 	public CardStack playedStack;
 	public CardStack rubbishStack;
 	public CardStack bigStack;
-	private CardStack[] chosen_cards_stack;
+	public CardStack[] chosenCardStacks;
 	// Hand cards
 	public Hand hand;
 	// Camera
@@ -26,6 +26,7 @@ public class Game : MonoBehaviour {
 	IEnumerator Start() {
 		//Initialize the base stack first thing.
 //		CardStack big_stack = new CardStack(AbsolutePosition(3,3));
+        for (int i = 0; i < 10; i++) bigStack.Push(CreateCard("Village", "base"));
 		for (int i=0; i<30; i++) bigStack.Push(CreateCard("Curse", "base"));
 		for (int i=0; i<12; i++) bigStack.Push(CreateCard("Province", "common"));
 		for (int i=0; i<12; i++) bigStack.Push(CreateCard("Duchy", "common"));
@@ -66,6 +67,10 @@ public class Game : MonoBehaviour {
 			yield return new WaitForSeconds(DELAY);
 			curseStack.Push(bigStack.Pop());
 		}
+        for (int i = 0; i < 10; i++) { 
+            yield return new WaitForSeconds(DELAY);
+            chosenCardStacks[0].Push(bigStack.Pop());
+        }
 		
 		// Build draw stack
 		float tmpdelay = 0.25f;

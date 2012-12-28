@@ -47,8 +47,9 @@
      <Compile Include="Assets\Code\Cam.cs" />
      <Compile Include="Assets\Code\Card.cs" />
      <Compile Include="Assets\Code\CardStack.cs" />
+     <Compile Include="Assets\Code\Cards\base\Curse.cs" />
+     <Compile Include="Assets\Code\Cards\base\Village.cs" />
      <Compile Include="Assets\Code\Cards\common\Copper.cs" />
-     <Compile Include="Assets\Code\Cards\common\Curse.cs" />
      <Compile Include="Assets\Code\Cards\common\Duchy.cs" />
      <Compile Include="Assets\Code\Cards\common\Estate.cs" />
      <Compile Include="Assets\Code\Cards\common\Gold.cs" />

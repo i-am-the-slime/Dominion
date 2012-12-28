@@ -9,4 +9,6 @@ public interface IPlayer {
     {
         get;
     }
+
+    void DrawCards(int number);
 }
