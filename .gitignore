@@ -47,7 +47,7 @@ local.properties
 *_i.c
 *_p.c
 *.ilk
-*.meta
+# *.meta # We need meta files! These are impooooortant.
 *.obj
 *.pch
 *.pdb
