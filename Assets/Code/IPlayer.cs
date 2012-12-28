@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
+public delegate bool RevealCardsCallback(Card card, Hand hand);
+
 public interface IPlayer {
     void IncreaseMoney(int by);
     void IncreaseActions(int by);
@@ -19,5 +21,5 @@ public interface IPlayer {
     }
     void DrawCards(int number);
 
-    IEnumerator HideHand();
+    IEnumerator RevealCards(RevealCardsCallback callback);
 }

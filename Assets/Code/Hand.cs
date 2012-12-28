@@ -57,6 +57,7 @@ public class Hand : MonoBehaviour, IPlayer{
 		    cards.Remove(card);
 		    ReorderCards();
             playedStack.Push(card);
+            actions--;
             card.Play(this);
         }
         else if ((card.Flags & Card.CardFlags.Treasure) == Card.CardFlags.Treasure)
@@ -121,6 +122,44 @@ public class Hand : MonoBehaviour, IPlayer{
 		
 		yield return new WaitForSeconds(0.5f);
 	}
+
+    public IEnumerator RevealCards(RevealCardsCallback callback)
+    {
+        yield return HideHand();
+        while (true)
+        {
+            if (drawStack.Count == 0)
+            {
+                if (rubbishStack.Count == 0)
+                {
+                    break;
+                }
+                rubbishStack.MoveAllCardsToStack(drawStack, false);
+                yield return drawStack.Shuffle();
+                yield return new WaitForSeconds(drawStack.audio.clip.length);
+            }
+            Card card = drawStack.Pop();
+            iTween.MoveTo(card.gameObject, new Vector3(-37, 72.57f, -495.44f), 0.5f);
+            iTween.RotateTo(card.gameObject, new Vector3(320.0f, 180.0f, 180.0f), 0.5f);
+            yield return new WaitForSeconds(0.5f);
+            if (callback(card, this))
+            {
+                yield return new WaitForSeconds(1);
+                break;
+            }
+            yield return new WaitForSeconds(1);
+        }
+        yield return ShowHand();
+    }
+
+    public IEnumerator ShowHand()
+    {
+        foreach (Card card in cards)
+        {
+            iTween.MoveTo(card.gameObject, card.gameObject.transform.position + new Vector3(0, 1.5f, 0), 0.5f);
+        }
+        yield return new WaitForSeconds(0.5f);
+    }
 
     public IEnumerator HideHand()
     {

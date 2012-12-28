@@ -23,52 +23,61 @@ public class Game : MonoBehaviour {
 	private const float DELAY = 0.025f; // TMP: was 0.15f
 	
 	// Use this for initialization
-	IEnumerator Start() {
-		//Initialize the base stack first thing.
+    private IEnumerator Start()
+    {
+        //Initialize the base stack first thing.
 //		CardStack big_stack = new CardStack(AbsolutePosition(3,3));
         for (int i = 0; i < 10; i++) bigStack.Push(CreateCard("Adventurer", "base"));
         for (int i = 0; i < 10; i++) bigStack.Push(CreateCard("Village", "base"));
-		for (int i=0; i<30; i++) bigStack.Push(CreateCard("Curse", "base"));
-		for (int i=0; i<12; i++) bigStack.Push(CreateCard("Province", "common"));
-		for (int i=0; i<12; i++) bigStack.Push(CreateCard("Duchy", "common"));
-		for (int i=0; i<24; i++) bigStack.Push(CreateCard("Estate", "common"));
-		for (int i=0; i<30; i++) bigStack.Push(CreateCard("Gold", "common"));
-		for (int i=0; i<40; i++) bigStack.Push(CreateCard("Silver", "common"));
-		for (int i=0; i<60; i++) bigStack.Push(CreateCard("Copper", "common"));
-		
-		// Money, money, money
-		for (int i=0; i<60; i++) {
-			yield return new WaitForSeconds(DELAY);
-			copperStack.Push(bigStack.Pop());
-		}
-		for (int i=0; i<40; i++) {
-			yield return new WaitForSeconds(DELAY);
-			silverStack.Push(bigStack.Pop());
-		}
-		for (int i=0; i<30; i++) {
-			yield return new WaitForSeconds(DELAY);
-			goldStack.Push(bigStack.Pop());
-		}
-		
-		cam.ChangeViewTo(Cam.Views.Hand);
-		
-		for (int i=0; i<24; i++) {
-			yield return new WaitForSeconds(DELAY);
-			estateStack.Push(bigStack.Pop());
-		}
-		for (int i=0; i<12; i++) {
-			yield return new WaitForSeconds(DELAY);
-			duchyStack.Push(bigStack.Pop());
-		}
-		for (int i=0; i<12; i++) {
-			yield return new WaitForSeconds(DELAY);
-			provinceStack.Push(bigStack.Pop());
-		}
-		for (int i=0; i<30; i++) {
-			yield return new WaitForSeconds(DELAY);
-			curseStack.Push(bigStack.Pop());
-		}
-        for (int i = 0; i < 10; i++) { 
+        for (int i = 0; i < 30; i++) bigStack.Push(CreateCard("Curse", "base"));
+        for (int i = 0; i < 12; i++) bigStack.Push(CreateCard("Province", "common"));
+        for (int i = 0; i < 12; i++) bigStack.Push(CreateCard("Duchy", "common"));
+        for (int i = 0; i < 24; i++) bigStack.Push(CreateCard("Estate", "common"));
+        for (int i = 0; i < 30; i++) bigStack.Push(CreateCard("Gold", "common"));
+        for (int i = 0; i < 40; i++) bigStack.Push(CreateCard("Silver", "common"));
+        for (int i = 0; i < 60; i++) bigStack.Push(CreateCard("Copper", "common"));
+
+        // Money, money, money
+        for (int i = 0; i < 60; i++)
+        {
+            yield return new WaitForSeconds(DELAY);
+            copperStack.Push(bigStack.Pop());
+        }
+        for (int i = 0; i < 40; i++)
+        {
+            yield return new WaitForSeconds(DELAY);
+            silverStack.Push(bigStack.Pop());
+        }
+        for (int i = 0; i < 30; i++)
+        {
+            yield return new WaitForSeconds(DELAY);
+            goldStack.Push(bigStack.Pop());
+        }
+
+        cam.ChangeViewTo(Cam.Views.Hand);
+
+        for (int i = 0; i < 24; i++)
+        {
+            yield return new WaitForSeconds(DELAY);
+            estateStack.Push(bigStack.Pop());
+        }
+        for (int i = 0; i < 12; i++)
+        {
+            yield return new WaitForSeconds(DELAY);
+            duchyStack.Push(bigStack.Pop());
+        }
+        for (int i = 0; i < 12; i++)
+        {
+            yield return new WaitForSeconds(DELAY);
+            provinceStack.Push(bigStack.Pop());
+        }
+        for (int i = 0; i < 30; i++)
+        {
+            yield return new WaitForSeconds(DELAY);
+            curseStack.Push(bigStack.Pop());
+        }
+        for (int i = 0; i < 10; i++)
+        {
             yield return new WaitForSeconds(DELAY);
             chosenCardStacks[0].Push(bigStack.Pop());
         }
@@ -77,17 +86,27 @@ public class Game : MonoBehaviour {
             yield return new WaitForSeconds(DELAY);
             chosenCardStacks[1].Push(bigStack.Pop());
         }
-		
-		// Build draw stack
-		float tmpdelay = 0.25f;
-		for (int i=0; i<7; i++) {
-			yield return new WaitForSeconds(tmpdelay);
-			drawStack.Push(copperStack.Pop());
-		}
-		for (int i=0; i<3; i++) {
-			yield return new WaitForSeconds(tmpdelay);
-			drawStack.Push(estateStack.Pop());
-		}
+
+        // Build draw stack
+        float tmpdelay = 0.25f;
+        for (int i = 0; i < 7; i++)
+        {
+            yield return new WaitForSeconds(tmpdelay);
+            drawStack.Push(copperStack.Pop());
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(tmpdelay);
+            drawStack.Push(estateStack.Pop());
+        }
+
+        // TESTING
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(tmpdelay);
+            drawStack.Push(chosenCardStacks[1].Pop());
+        }
+        // END TESTING
 		
 		yield return StartCoroutine(drawStack.Shuffle());
 		yield return StartCoroutine(hand.DrawNewCards(5));
