@@ -17,17 +17,17 @@ public class Game : MonoBehaviour {
 	public CardStack bigStack;
 	public CardStack[] chosenCardStacks;
 	// Hand cards
-	public Hand hand;
+	public Player player;
 	// Camera
 	public Cam cam;
-	private const float DELAY = 0.025f; // TMP: was 0.15f
+	private const float DELAY = 0.0001f; // TMP: was 0.15f
 	
 	// Use this for initialization
     private IEnumerator Start()
     {
         //Initialize the base stack first thing.
 //		CardStack big_stack = new CardStack(AbsolutePosition(3,3));
-        string[] chosenCards = new string[]{"Village", "Adventurer", "Bureaucrat" };
+        string[] chosenCards = new string[]{"Village", "Adventurer", "Bureaucrat", "Cellar" };
         for (int j = 0; j < chosenCards.Length; j++)
         {
             for (int i = 0; i < 10; i++) bigStack.Push(CreateCard(chosenCards[j], "base"));
@@ -111,7 +111,7 @@ public class Game : MonoBehaviour {
         // END TESTING
 		
 		yield return StartCoroutine(drawStack.Shuffle());
-		yield return StartCoroutine(hand.DrawNewCards(5));
+		yield return StartCoroutine(player.DrawNewCards(5));
 	}
 	
 	public IEnumerator MakeDrawStack() {
@@ -124,7 +124,7 @@ public class Game : MonoBehaviour {
 		Texture2D tex = (Texture2D) (Resources.Load("textures_"+Settings.LANG+"/"+expansion+"/"+name.ToLower()));
 		materials[1].SetTexture("_MainTex", tex);
 		cardObject.renderer.materials = materials;
-
+	    cardObject.name = name;
         cardObject.AddComponent(name);
         return cardObject.GetComponent<Card>();
 	}
@@ -152,7 +152,7 @@ public class Game : MonoBehaviour {
 	
 	IEnumerator DrawCardFromStack(CardStack stack, float delay){
 		yield return new WaitForSeconds(delay);
-		hand.DrawCard(stack.Pop());
+		player.DrawCard(stack.Pop());
 	}
 	
 	public void Update(){
@@ -162,11 +162,11 @@ public class Game : MonoBehaviour {
 	}
 	
 	IEnumerator EndTurn() {
-		yield return StartCoroutine(hand.EndTurn());
+		yield return StartCoroutine(player.EndTurn());
 		playedStack.MoveAllCardsToStack(rubbishStack, true);
 		yield return new WaitForSeconds(1.0f);
-        hand.BeginNewTurn();
-		yield return StartCoroutine(hand.DrawNewCards(5));
+        player.BeginNewTurn();
+		yield return StartCoroutine(player.DrawNewCards(5));
 	}
 }
 

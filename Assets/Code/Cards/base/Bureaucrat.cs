@@ -7,7 +7,7 @@ class Bureaucrat : Card
     public override int Score { get { return 0; } }
     public override CardFlags Flags { get { return CardFlags.Action | CardFlags.Attack; } }
 
-    public override IEnumerator Play(IPlayer player)
+    public override IEnumerator Play(Player player)
     {
         yield return new WaitForSeconds(1.0f);
         Card card = player.SilverStack.Pop();

@@ -49,6 +49,7 @@
      <Compile Include="Assets\Code\CardStack.cs" />
      <Compile Include="Assets\Code\Cards\base\Adventurer.cs" />
      <Compile Include="Assets\Code\Cards\base\Bureaucrat.cs" />
+     <Compile Include="Assets\Code\Cards\base\Cellar.cs" />
      <Compile Include="Assets\Code\Cards\base\Curse.cs" />
      <Compile Include="Assets\Code\Cards\base\Village.cs" />
      <Compile Include="Assets\Code\Cards\common\Copper.cs" />
@@ -59,9 +60,7 @@
      <Compile Include="Assets\Code\Cards\common\Silver.cs" />
      <Compile Include="Assets\Code\EventManager.cs" />
      <Compile Include="Assets\Code\Game.cs" />
-     <Compile Include="Assets\Code\Hand.cs" />
-     <Compile Include="Assets\Code\IPlayer.cs" />
-     <Compile Include="Assets\Code\SoundEventListener.cs" />
+     <Compile Include="Assets\Code\Player.cs" />
      <Compile Include="Assets\iTween\Plugins\iTween.cs" />
      <Compile Include="Assets\iTween\Sample\MoveSample.cs" />
      <Compile Include="Assets\iTween\Sample\RotateSample.cs" />

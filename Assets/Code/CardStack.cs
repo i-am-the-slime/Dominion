@@ -3,20 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class CardStack : MonoBehaviour {
-	private Stack stack = new Stack();
+// ReSharper restore CheckNamespace
+	private Stack<Card> stack = new Stack<Card>();
 	public bool faceUp;
 	public bool untidy;
     public bool canBeBought;
-    public Hand hand;
+    public Player player;
 
     public void CardClicked(Card card) 
     {
         if (!canBeBought) return;
-        hand.BuyCard(this);
+        player.BuyCard(this);
     }
 
 	public Card Peek(){
-		return this.stack.Peek() as Card;
+		return stack.Peek();
 	}
 	
 	public void Push(Card card) {
@@ -25,7 +26,7 @@ public class CardStack : MonoBehaviour {
 	
 	public void Push(Card card, bool flat){
 		Vector3 s = new Vector3(card.transform.position.x, card.transform.position.y, card.transform.position.z);
-		Vector3 z = transform.position + new Vector3(0.0f, this.stack.Count*0.015f, 0.0f);
+		Vector3 z = transform.position + new Vector3(0.0f, stack.Count*0.01f, 0.0f);
 		Vector3 intermediate = s + 0.5f *(z-s);
 		intermediate.y+=1.0f;
 		
@@ -33,7 +34,7 @@ public class CardStack : MonoBehaviour {
 			iTween.MoveTo(card.gameObject, z, 1.0f);
 		}
 		else {
-			iTween.MoveTo(card.gameObject, iTween.Hash("path", new Vector3[]{s, intermediate, z}, "time", 1.0f));
+			iTween.MoveTo(card.gameObject, iTween.Hash("path", new[]{s, intermediate, z}, "time", 1.0f));
 		}
 		
 		Vector3 rot = transform.rotation.eulerAngles;
@@ -67,19 +68,19 @@ public class CardStack : MonoBehaviour {
         yield return new WaitForSeconds(audio.clip.length);
 	}
 	
-	public void MoveAllCardsToStack(CardStack stack, bool flat) {
+	public void MoveAllCardsToStack(CardStack cardStack, bool flat) {
 		Stack tempStack = new Stack();
 		while (!IsEmpty) {
 			tempStack.Push(Pop());
 		}
 		while (tempStack.Count > 0) {
-			stack.Push(tempStack.Pop() as Card, flat);
+			cardStack.Push(tempStack.Pop() as Card, flat);
 		}
 	}
 	
 	public Card Pop() {
-        Card card = stack.Pop() as Card;
-        card.CardClicked -= CardClicked;
+        Card card = stack.Pop();
+	    card.CardClicked -= CardClicked;
 		return card;
 	}
 	

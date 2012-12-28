@@ -47,7 +47,7 @@ public abstract class Card : MonoBehaviour {
 		}
 	}
 
-    public virtual IEnumerator Play(IPlayer player)
+    public virtual IEnumerator Play(Player player)
     {
         return null;
     }

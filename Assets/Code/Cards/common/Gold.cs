@@ -7,7 +7,7 @@ public class Gold : Card
     public override int Score { get { return 0; } }
     public override CardFlags Flags { get { return CardFlags.Treasure; } }
 
-    public override IEnumerator Play(IPlayer player)
+    public override IEnumerator Play(Player player)
     {
         player.IncreaseMoney(3);
         return null;
