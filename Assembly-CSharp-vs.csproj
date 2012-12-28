@@ -1,70 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<ProductVersion>9.0.21022</ProductVersion>
-	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{2FEE0B71-8C75-2976-0E88-C307EB66EAD6}</ProjectGuid>
-	<OutputType>Library</OutputType>
-	<AppDesignerFolder>Properties</AppDesignerFolder>
-	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	<FileAlignment>512</FileAlignment>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2FEE0B71-8C75-2976-0E88-C307EB66EAD6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>
+    </RootNamespace>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	<DebugSymbols>true</DebugSymbols>
-	<DebugType>full</DebugType>
-	<Optimize>false</Optimize>
-	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_STANDALONE;ENABLE_MICROPHONE;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;ENABLE_AUDIO_FMOD;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PHYSICS;ENABLE_TERRAIN;ENABLE_CACHING;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_CLOTH;ENABLE_MOVIES;ENABLE_AUDIO;ENABLE_WWW;ENABLE_SHADOWS;ENABLE_DUCK_TYPING;UNITY_4_0_0;UNITY_4_0;UNITY_STANDALONE_WIN;ENABLE_PROFILER;UNITY_EDITOR</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_STANDALONE;ENABLE_MICROPHONE;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;ENABLE_AUDIO_FMOD;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PHYSICS;ENABLE_TERRAIN;ENABLE_CACHING;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_CLOTH;ENABLE_MOVIES;ENABLE_AUDIO;ENABLE_WWW;ENABLE_SHADOWS;ENABLE_DUCK_TYPING;UNITY_4_0_0;UNITY_4_0;UNITY_STANDALONE_WIN;ENABLE_PROFILER;UNITY_EDITOR</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-	<DebugType>pdbonly</DebugType>
-	<Optimize>true</Optimize>
-	<OutputPath>Temp\bin\Release\</OutputPath>
-	<DefineConstants>TRACE</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="System" />
+    <Reference Include="System" />
     <Reference Include="System.XML" />
-	<Reference Include="System.Core" />
-	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
-	</Reference>
-	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
-	</Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Code\Cam.cs" />
-     <Compile Include="Assets\Code\Card.cs" />
-     <Compile Include="Assets\Code\CardStack.cs" />
-     <Compile Include="Assets\Code\Cards\base\Curse.cs" />
-     <Compile Include="Assets\Code\Cards\base\Village.cs" />
-     <Compile Include="Assets\Code\Cards\common\Copper.cs" />
-     <Compile Include="Assets\Code\Cards\common\Duchy.cs" />
-     <Compile Include="Assets\Code\Cards\common\Estate.cs" />
-     <Compile Include="Assets\Code\Cards\common\Gold.cs" />
-     <Compile Include="Assets\Code\Cards\common\Province.cs" />
-     <Compile Include="Assets\Code\Cards\common\Silver.cs" />
-     <Compile Include="Assets\Code\EventManager.cs" />
-     <Compile Include="Assets\Code\Game.cs" />
-     <Compile Include="Assets\Code\Hand.cs" />
-     <Compile Include="Assets\Code\IPlayer.cs" />
-     <Compile Include="Assets\Code\SoundEventListener.cs" />
-     <Compile Include="Assets\iTween\Plugins\iTween.cs" />
-     <Compile Include="Assets\iTween\Sample\MoveSample.cs" />
-     <Compile Include="Assets\iTween\Sample\RotateSample.cs" />
-     <Compile Include="Assets\iTween\Sample\SampleInfo.cs" />
-     <None Include="Assets\iTween\ReadMe!\ReadMe!.txt" />
+    <Compile Include="Assets\Code\Cam.cs" />
+    <Compile Include="Assets\Code\Card.cs" />
+    <Compile Include="Assets\Code\CardStack.cs" />
+    <Compile Include="Assets\Code\Cards\base\Curse.cs" />
+    <Compile Include="Assets\Code\Cards\base\Adventurer.cs" />
+    <Compile Include="Assets\Code\Cards\base\Village.cs" />
+    <Compile Include="Assets\Code\Cards\common\Copper.cs" />
+    <Compile Include="Assets\Code\Cards\common\Duchy.cs" />
+    <Compile Include="Assets\Code\Cards\common\Estate.cs" />
+    <Compile Include="Assets\Code\Cards\common\Gold.cs" />
+    <Compile Include="Assets\Code\Cards\common\Province.cs" />
+    <Compile Include="Assets\Code\Cards\common\Silver.cs" />
+    <Compile Include="Assets\Code\EventManager.cs" />
+    <Compile Include="Assets\Code\Game.cs" />
+    <Compile Include="Assets\Code\Hand.cs" />
+    <Compile Include="Assets\Code\IPlayer.cs" />
+    <Compile Include="Assets\Code\SoundEventListener.cs" />
+    <Compile Include="Assets\iTween\Plugins\iTween.cs" />
+    <Compile Include="Assets\iTween\Sample\MoveSample.cs" />
+    <Compile Include="Assets\iTween\Sample\RotateSample.cs" />
+    <Compile Include="Assets\iTween\Sample\SampleInfo.cs" />
+    <None Include="Assets\iTween\ReadMe!\ReadMe!.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -74,5 +76,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
 </Project>

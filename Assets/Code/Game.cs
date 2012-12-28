@@ -26,7 +26,8 @@ public class Game : MonoBehaviour {
 	IEnumerator Start() {
 		//Initialize the base stack first thing.
 //		CardStack big_stack = new CardStack(AbsolutePosition(3,3));
-        for (int i=0; i<10; i++) bigStack.Push(CreateCard("Village", "base"));
+        for (int i = 0; i < 10; i++) bigStack.Push(CreateCard("Adventurer", "base"));
+        for (int i = 0; i < 10; i++) bigStack.Push(CreateCard("Village", "base"));
 		for (int i=0; i<30; i++) bigStack.Push(CreateCard("Curse", "base"));
 		for (int i=0; i<12; i++) bigStack.Push(CreateCard("Province", "common"));
 		for (int i=0; i<12; i++) bigStack.Push(CreateCard("Duchy", "common"));
@@ -71,6 +72,11 @@ public class Game : MonoBehaviour {
             yield return new WaitForSeconds(DELAY);
             chosenCardStacks[0].Push(bigStack.Pop());
         }
+        for (int i = 0; i < 10; i++)
+        {
+            yield return new WaitForSeconds(DELAY);
+            chosenCardStacks[1].Push(bigStack.Pop());
+        }
 		
 		// Build draw stack
 		float tmpdelay = 0.25f;
@@ -92,7 +98,7 @@ public class Game : MonoBehaviour {
 	}
 	
 	Card CreateCard(string name, string expansion){
-		GameObject cardObject = MonoBehaviour.Instantiate(Resources.Load("Prefabs/card")) as GameObject;
+		GameObject cardObject = Instantiate(Resources.Load("Prefabs/card")) as GameObject;
 		Material[] materials = cardObject.renderer.materials;
 		Texture2D tex = (Texture2D) (Resources.Load("textures_"+Settings.LANG+"/"+expansion+"/"+name.ToLower()));
 		materials[1].SetTexture("_MainTex", tex);

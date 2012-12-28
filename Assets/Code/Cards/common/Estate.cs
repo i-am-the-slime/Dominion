@@ -3,18 +3,7 @@ using System.Collections;
 
 public class Estate : Card
 {
-    public override int GetScore()
-    {
-        return 1;
-    }
-
-    public override bool IsPlayable()
-    {
-        return false;
-    }
-
-    public override int GetCost()
-    {
-        return 2;
-    }
+    public override int Cost { get { return 2; } }
+    public override int Score { get { return 1; } }
+    public override CardFlags Flags { get { return CardFlags.Victory; } }
 }

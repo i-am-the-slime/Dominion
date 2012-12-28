@@ -9,6 +9,15 @@ public interface IPlayer {
     {
         get;
     }
-
+    int Buys
+    {
+        get;
+    }
+    int Actions
+    {
+        get;
+    }
     void DrawCards(int number);
+
+    IEnumerator HideHand();
 }

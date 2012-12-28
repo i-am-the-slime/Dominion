@@ -7,12 +7,13 @@ public class Hand : MonoBehaviour, IPlayer{
 	public CardStack rubbishStack;
 	
 	private IList cards = new ArrayList();
-	private const float cardWidth = 1.0f;
+	private const float cardWidth = 0.7f;
 
     private int money = 0;
     private int buys = 1;
     private int actions = 1;
-
+    private bool buyPhase = false;
+    
     public void IncreaseMoney(int by) 
     {
         money += by;
@@ -51,10 +52,18 @@ public class Hand : MonoBehaviour, IPlayer{
 	}
 	
 	public void OnCardClicked(Card card) {
-        if (card.IsPlayable()) {
+        if ((card.Flags & Card.CardFlags.Action) == Card.CardFlags.Action && !buyPhase) {
             card.CardClicked -= OnCardClicked;
 		    cards.Remove(card);
 		    ReorderCards();
+            playedStack.Push(card);
+            card.Play(this);
+        }
+        else if ((card.Flags & Card.CardFlags.Treasure) == Card.CardFlags.Treasure)
+        {
+            card.CardClicked -= OnCardClicked;
+            cards.Remove(card);
+            ReorderCards();
             playedStack.Push(card);
             card.Play(this);
         }
@@ -80,6 +89,7 @@ public class Hand : MonoBehaviour, IPlayer{
         money = 0;
         actions = 1;
         buys = 1;
+        buyPhase = false;
     }
 
     public void DrawCards(int number)
@@ -112,6 +122,14 @@ public class Hand : MonoBehaviour, IPlayer{
 		yield return new WaitForSeconds(0.5f);
 	}
 
+    public IEnumerator HideHand()
+    {
+        foreach (Card card in cards)
+        {
+            iTween.MoveTo(card.gameObject, card.gameObject.transform.position - new Vector3(0, 1.5f, 0), 0.5f);
+        }
+        yield return new WaitForSeconds(0.5f);
+    }
 
     public int Money
     {
@@ -121,11 +139,23 @@ public class Hand : MonoBehaviour, IPlayer{
     public void BuyCard(CardStack cardStack)
     {
         Card card = cardStack.Peek();
-        if (card.GetCost() <= money && buys > 0)
+        if (card.Cost <= money && buys > 0)
         {
+            buyPhase = true;
             rubbishStack.Push(cardStack.Pop());
             buys--;
-            money -= card.GetCost();
+            money -= card.Cost;
         }
     }
+    
+    public int Buys
+    {
+        get { return buys; }
+    }
+
+    public int Actions
+    {
+        get { return actions; }
+    }
+
 }
