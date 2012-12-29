@@ -27,7 +27,7 @@ public class Game : MonoBehaviour {
     {
         //Initialize the base stack first thing.
 //		CardStack big_stack = new CardStack(AbsolutePosition(3,3));
-        string[] chosenCards = new string[]{"Village", "Adventurer", "Bureaucrat", "Cellar" };
+        string[] chosenCards = new string[]{"Village", "Adventurer", "Bureaucrat", "Cellar", "CouncilRoom", "Laboratory", "Festival", "Smithy", "Witch", "Woodcutter"};
         for (int j = 0; j < chosenCards.Length; j++)
         {
             for (int i = 0; i < 10; i++) bigStack.Push(CreateCard(chosenCards[j], "base"));
@@ -102,6 +102,7 @@ public class Game : MonoBehaviour {
             drawStack.Push(estateStack.Pop());
         }
 
+        /*
         // TESTING
         for (int i = 0; i < 3; i++)
         {
@@ -109,6 +110,7 @@ public class Game : MonoBehaviour {
             drawStack.Push(chosenCardStacks[0].Pop());
         }
         // END TESTING
+        */
 		
 		yield return StartCoroutine(drawStack.Shuffle());
 		yield return StartCoroutine(player.DrawNewCards(5));

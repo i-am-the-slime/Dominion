@@ -54,6 +54,8 @@ public class Player : MonoBehaviour
     {
         cards.Add(card);
         card.CardClicked += OnCardClicked;
+        //Trying to avoid cards flying back to the hand.
+        yield return new WaitForSeconds(0.2f);
         ReorderCards();
         yield return new WaitForSeconds(0.3f);
     }

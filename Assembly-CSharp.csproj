@@ -50,8 +50,14 @@
      <Compile Include="Assets\Code\Cards\base\Adventurer.cs" />
      <Compile Include="Assets\Code\Cards\base\Bureaucrat.cs" />
      <Compile Include="Assets\Code\Cards\base\Cellar.cs" />
+     <Compile Include="Assets\Code\Cards\base\CouncilRoom.cs" />
      <Compile Include="Assets\Code\Cards\base\Curse.cs" />
+     <Compile Include="Assets\Code\Cards\base\Festival.cs" />
+     <Compile Include="Assets\Code\Cards\base\Laboratory.cs" />
+     <Compile Include="Assets\Code\Cards\base\Smithy.cs" />
      <Compile Include="Assets\Code\Cards\base\Village.cs" />
+     <Compile Include="Assets\Code\Cards\base\Witch.cs" />
+     <Compile Include="Assets\Code\Cards\base\Woodcutter.cs" />
      <Compile Include="Assets\Code\Cards\common\Copper.cs" />
      <Compile Include="Assets\Code\Cards\common\Duchy.cs" />
      <Compile Include="Assets\Code\Cards\common\Estate.cs" />

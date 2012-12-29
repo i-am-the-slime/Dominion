@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Cellar : Card
 {
-    public override int Cost { get { return 6; } }
+    public override int Cost { get { return 2; } }
     public override int Score { get { return 0; } }
     public override CardFlags Flags { get { return CardFlags.Action; } }
 
