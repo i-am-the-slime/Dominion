@@ -166,5 +166,6 @@ pip-log.txt
 # Custom stuff          #
 #########################
 
-Assets/textures
+Assets/Textures
+Assets/Resources/Textures/en
 Library

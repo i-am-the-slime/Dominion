@@ -123,7 +123,7 @@ public class Game : MonoBehaviour {
 	Card CreateCard(string name, string expansion){
 		GameObject cardObject = Instantiate(Resources.Load("Prefabs/card")) as GameObject;
 		Material[] materials = cardObject.renderer.materials;
-		Texture2D tex = (Texture2D) (Resources.Load("textures_"+Settings.LANG+"/"+expansion+"/"+name.ToLower()));
+		Texture2D tex = (Texture2D) (Resources.Load("Textures/"+Settings.LANG+"/"+expansion+"/"+name.ToLower()));
 		materials[1].SetTexture("_MainTex", tex);
 		cardObject.renderer.materials = materials;
 	    cardObject.name = name;
