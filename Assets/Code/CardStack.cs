@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class CardStack : MonoBehaviour {
 // ReSharper restore CheckNamespace
 	private Stack<Card> stack = new Stack<Card>();
-	public bool faceUp;
+	public bool faceDown;
 	public bool untidy;
     public bool canBeBought;
     public Player player;
@@ -38,11 +38,13 @@ public class CardStack : MonoBehaviour {
 		}
 		
 		Vector3 rot = transform.rotation.eulerAngles;
-		if (!faceUp) {
+
+        if (faceDown) {
 			rot -= new Vector3(180, 0, 0);
-		}
+        }
+
 		if (untidy) {
-			rot += new Vector3(0, Random.Range(-21, 21), 0);
+			rot += new Vector3(0, Random.Range(-14, 14), 0);
 			rot.y -= 360;
 		}
 		iTween.RotateTo(card.gameObject, rot , 1.0f);
@@ -52,6 +54,7 @@ public class CardStack : MonoBehaviour {
 	}
 	
 	public IEnumerator Shuffle() {
+        print("Shuffling");
 		List<Card> tempList = new List<Card>();
         audio.Play();
 		

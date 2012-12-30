@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class Cam : MonoBehaviour {
-	public enum Views {Hand, Table};
+	public enum Views {Hand, Table, ActionCards};
 	
 	public void ChangeViewTo(Views view){
 		Vector3 pos;
@@ -16,6 +16,10 @@ public class Cam : MonoBehaviour {
 				pos = new Vector3(-37.0f, 81.4f, -488.84f);
 				rot = new Vector3(90.0f, 0.0f, 0.0f);
 				break;
+            case Views.ActionCards:
+                pos = new Vector3(-37.0f, 75.7f, -488.7f);
+                rot = new Vector3(90.0f, 0.0f, 0.0f);
+                break;
 			default:
 				return;
 		}	

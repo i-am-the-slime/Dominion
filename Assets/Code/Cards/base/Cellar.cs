@@ -29,6 +29,6 @@ public class Cellar : Card
         
         player.DiscardSelectedCards(cardList);
         yield return new WaitForSeconds(0.5f);
-        player.DrawCards(cardList.Count);
+        yield return StartCoroutine(player.DrawNewCards(cardList.Count));
     }
 }

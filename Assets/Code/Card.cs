@@ -6,8 +6,8 @@ public delegate void CardClickHandler(Card card);
 
 public abstract class Card : MonoBehaviour {
 	public event CardClickHandler CardClicked;
-	private bool _showCardInfo = false;
-
+	public bool ShowCardInfo = false;
+    private Rect _cardInfoRect = new Rect(Screen.width / 2 - 326 / 2, Screen.height / 2 - 503 / 2, 326, 503);
     [Flags]
     public enum CardFlags {
         Action = 1,
@@ -26,24 +26,22 @@ public abstract class Card : MonoBehaviour {
 			CardClicked(this);
 		}
 	}
-	
-	public void OnMouseOver() {
-		if (Input.GetMouseButtonDown(1)) {
-			_showCardInfo = true;
-		}
-		
-		if (Input.GetMouseButtonUp(1)) {
-			_showCardInfo = false;
-		}
-	}
-	
-	public void OnMouseExit() {
-		_showCardInfo = false;
-	}
-	
+
+    public void GreyOut() {
+        Material[] mats = gameObject.renderer.materials;
+        mats[1].SetColor("_Color", new Color(0.7f, 0.7f, 0.7f));
+        gameObject.renderer.materials = mats;
+    }
+
+    public void UnGreyOut() {
+        Material[] mats = gameObject.renderer.materials;
+        mats[1].SetColor("_Color", new Color(1, 1, 1));
+        gameObject.renderer.materials = mats;
+    }
+
 	public void OnGUI() {
-		if (_showCardInfo) {
-			GUI.Box(new Rect(Screen.width/2-326/2,Screen.height/2-503/2,326,503), renderer.materials[1].mainTexture);
+		if (ShowCardInfo) {
+			GUI.Box(_cardInfoRect, renderer.materials[1].mainTexture);
 		}
 	}
 

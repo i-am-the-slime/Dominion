@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
 	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<ProductVersion>9.0.21022</ProductVersion>
+	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
 	<ProjectGuid>{2FEE0B71-8C75-2976-0E88-C307EB66EAD6}</ProjectGuid>
 	<OutputType>Library</OutputType>
@@ -50,6 +50,7 @@
      <Compile Include="Assets\Code\Cards\base\Adventurer.cs" />
      <Compile Include="Assets\Code\Cards\base\Bureaucrat.cs" />
      <Compile Include="Assets\Code\Cards\base\Cellar.cs" />
+     <Compile Include="Assets\Code\Cards\base\Chancellor.cs" />
      <Compile Include="Assets\Code\Cards\base\CouncilRoom.cs" />
      <Compile Include="Assets\Code\Cards\base\Curse.cs" />
      <Compile Include="Assets\Code\Cards\base\Festival.cs" />
@@ -65,6 +66,8 @@
      <Compile Include="Assets\Code\Cards\common\Province.cs" />
      <Compile Include="Assets\Code\Cards\common\Silver.cs" />
      <Compile Include="Assets\Code\EventManager.cs" />
+     <Compile Include="Assets\Code\GUI\GUIManager.cs" />
+     <Compile Include="Assets\Code\GUI\ModalDialogue.cs" />
      <Compile Include="Assets\Code\Game.cs" />
      <Compile Include="Assets\Code\Player.cs" />
      <Compile Include="Assets\iTween\Plugins\iTween.cs" />

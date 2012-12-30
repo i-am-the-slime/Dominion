@@ -8,23 +8,15 @@ public delegate IEnumerator SelectedCardsCallback(ArrayList cardList, Player pla
 
 public class Player : MonoBehaviour
 {
+    private bool InputAllowed = true;
     public CardStack playedStack;
     public CardStack rubbishStack;
     public CardStack drawStack;
     public CardStack silverStack;
-
-    public CardStack DrawStack
-    {
-        get { return drawStack; }
-        set { drawStack = value; }
-    }
-
-    public CardStack SilverStack
-    {
-        get { return silverStack; }
-        set { silverStack = value; }
-    }
-
+    public CardStack DrawStack { get { return drawStack; } set { drawStack = value; } }
+    public CardStack RubbishStack { get { return rubbishStack; } set { rubbishStack = value; } }
+    public CardStack SilverStack { get { return silverStack; } set { silverStack = value; } }
+    public Cam cam;
     private IList cards = new ArrayList();
     private const float cardWidth = 0.8f;
 
@@ -35,78 +27,70 @@ public class Player : MonoBehaviour
 
     public bool CardPlaying = false;
 
-    public void IncreaseMoney(int by)
-    {
-        money += by;
+    public void IncreaseMoney(int by) { money += by; } 
+    public void IncreaseActions(int by) { actions += by; }
+
+    public void IncreaseBuys(int by) { buys += by; }
+
+    // Selection mode
+    private ArrayList selectedCards = new ArrayList();
+    private bool selectionMode = false;
+    public SelectedCardsCallback chooseCardsCallback;
+    public IsSelectedCardSelectable selectedCardValidCallback;
+
+    public IEnumerator DrawCard(Card card) {
+        if (InputAllowed) {
+            InputAllowed = false;
+            cards.Add(card);
+            card.CardClicked += OnCardClicked;
+            //Trying to avoid cards flying back to the hand.
+            yield return new WaitForSeconds(0.2f);
+            ReorderCards();
+            yield return new WaitForSeconds(0.3f);
+            InputAllowed = true;
+        }
     }
 
-    public void IncreaseActions(int by)
-    {
-        actions += by;
-    }
-
-    public void IncreaseBuys(int by)
-    {
-        buys += by;
-    }
-
-    public IEnumerator DrawCard(Card card)
-    {
-        cards.Add(card);
-        card.CardClicked += OnCardClicked;
-        //Trying to avoid cards flying back to the hand.
-        yield return new WaitForSeconds(0.2f);
-        ReorderCards();
-        yield return new WaitForSeconds(0.3f);
-    }
-
-    private void ReorderCards()
-    {
+    private void ReorderCards() {
         int index = 0;
-        foreach (Card c in cards)
-        {
+        foreach (Card c in cards) {
             iTween.MoveTo(c.gameObject, transform.position + CalcCardPosition(index), 2.0f);
             iTween.RotateTo(c.gameObject, transform.rotation.eulerAngles, 2.0f);
             index++;
         }
     }
 
-    private Vector3 CalcCardPosition(int index)
-    {
+    private Vector3 CalcCardPosition(int index) {
         float centerIndex = (cards.Count - 1) / 2.0f;
         float xPos = (index - centerIndex) * cardWidth;
         return new Vector3(xPos, 0.0f, 0.0f);
     }
 
-    public void OnCardClicked(Card card)
-    {
-        if (selectionMode)
-        {
-            if (selectedCardValidCallback(card, this))
-            {
-                if (selectedCards.Contains(card))
-                {
+    public void OnCardClicked(Card card) {
+        if (!InputAllowed)
+            return;
+        if (selectionMode) {
+            if (selectedCardValidCallback(card, this)) {
+                if (selectedCards.Contains(card)) {
                     selectedCards.Remove(card);
                     cards.Add(card);
                     // Grey card out
-                    card.gameObject.renderer.material.SetColor("_Color", new Color(0.7f, 0.7f, 0.7f));
+                    card.GreyOut();
                     // Move card back down so that we know that we keep it on our hand.
                     iTween.MoveTo(card.gameObject, card.gameObject.transform.position - new Vector3(0, 0.1f, 0), 0.3f);
                 }
-                else
-                {
+                else {
                     cards.Remove(card);
                     selectedCards.Add(card);
                     // Make card have full brightness
-                    card.gameObject.renderer.material.SetColor("_Color", new Color(1, 1, 1));
+                    card.UnGreyOut();
                     // Move card up a little so we know that this is selected
                     iTween.MoveTo(card.gameObject, card.gameObject.transform.position + new Vector3(0, 0.1f, 0), 0.3f);
                 }
             }   
         }
         else {
-            if ((card.Flags & Card.CardFlags.Action) == Card.CardFlags.Action && !buyPhase && actions > 0)
-            {
+            if ((card.Flags & Card.CardFlags.Action) == Card.CardFlags.Action && !buyPhase && actions > 0) {
                 card.CardClicked -= OnCardClicked;
                 cards.Remove(card);
                 ReorderCards();
@@ -115,8 +99,7 @@ public class Player : MonoBehaviour
                 try { StartCoroutine(card.Play(this)); }
                 catch (NullReferenceException) { /*Ignore*/ }
             }
-            else if ((card.Flags & Card.CardFlags.Treasure) == Card.CardFlags.Treasure)
-            {
+            else if ((card.Flags & Card.CardFlags.Treasure) == Card.CardFlags.Treasure) {
                 card.CardClicked -= OnCardClicked;
                 cards.Remove(card);
                 ReorderCards();
@@ -126,7 +109,7 @@ public class Player : MonoBehaviour
             }
         }
     }
-
+    
 
     public IEnumerator EndTurn()
     {
@@ -200,6 +183,14 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
     }
 
+	IEnumerator EndCurrentTurn() {
+		yield return StartCoroutine(EndTurn());
+		playedStack.MoveAllCardsToStack(rubbishStack, true);
+		yield return new WaitForSeconds(1.0f);
+        BeginNewTurn();
+		yield return StartCoroutine(DrawNewCards(5));
+	}
+
     public IEnumerator RevealCards(RevealCardsCallback callback)
     {
         yield return HideHand();
@@ -229,30 +220,6 @@ public class Player : MonoBehaviour
         yield return ShowHand();
     }
 
-    private ArrayList selectedCards = new ArrayList();
-    private bool selectionMode = false;
-    public SelectedCardsCallback chooseCardsCallback;
-    public IsSelectedCardSelectable selectedCardValidCallback;
-
-    public void OnGUI()
-    {
-        if (selectionMode)
-        {
-            if (GUI.Button(new Rect(Screen.width / 2 - 100, 20, 200, 20), "Done"))
-            {
-                Debug.Log("Done button clicked in selection mode.");                
-                selectionMode = false;
-                foreach (Card card in cards)
-                {
-                    Material m = card.gameObject.renderer.materials[1];
-                    m.SetColor("_Color", new Color(1, 1, 1));
-                    card.gameObject.renderer.materials[1] = m;
-                }
-                StartCoroutine(chooseCardsCallback(selectedCards, this));
-
-            }
-        }
-    }
 
     public void ChooseCards(IsSelectedCardSelectable cardCallback, SelectedCardsCallback finalCallback)
     {
@@ -263,13 +230,9 @@ public class Player : MonoBehaviour
         selectedCardValidCallback = cardCallback;
         foreach (Card card in cards)
         {
-            // Grey the cards out
-            Material m = card.gameObject.renderer.materials[1];
-            m.SetColor("_Color", new Color(0.7f, 0.7f, 0.7f));
-            card.gameObject.renderer.material = m;
+            card.GreyOut();            
         }
     }
-
 
     public IEnumerator ShowHand()
     {
@@ -289,11 +252,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
     }
 
-    public int Money
-    {
-        get { return money; }
-    }
-
     public void BuyCard(CardStack cardStack)
     {
         Card card = cardStack.Peek();
@@ -308,14 +266,85 @@ public class Player : MonoBehaviour
         }
     }
 
-    public int Buys
-    {
-        get { return buys; }
-    }
+    public int Money { get { return money; } }
+    public int Buys { get { return buys; } }
+    public int Actions { get { return actions; } }
+    Card hoveredCard = null;
 
-    public int Actions
-    {
-        get { return actions; }
-    }
+    public void Update() {
+        if (!selectionMode && Input.GetButtonDown("Jump")) {
+            StartCoroutine(EndCurrentTurn());
+        }
+        if (Input.GetMouseButtonDown(1)) {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit = new RaycastHit();
+            if (Physics.Raycast(ray, out hit, 50.0f)) {
+                Card card = hit.collider.gameObject.GetComponent<Card>();
+                if(card!=null){
+                    hoveredCard = card;
+                    card.ShowCardInfo = true;
+                }
+            }
+        }
+        if (Input.GetMouseButtonUp(1)) {
+            hoveredCard.ShowCardInfo = false;
+            hoveredCard = null; 
+        }
 
+    }
+    
+    bool seeOnlyActionCards = false;
+    public void OnGUI() {
+        GUI.skin = Resources.Load("GUI/DominionGUISkin") as GUISkin;
+        GUI.backgroundColor = new Color(0, 0, 0, 1);
+        if (selectionMode)
+        {
+            if (GUI.Button(new Rect(Screen.width / 2 - 100, 20, 200, 20), "Done"))
+            {
+                Debug.Log("Done button clicked in selection mode.");                
+                selectionMode = false;
+                foreach (Card card in cards)
+                {
+                    card.UnGreyOut();
+                }
+                StartCoroutine(chooseCardsCallback(selectedCards, this));
+
+            }
+        }
+        String stats = "Actions: " + actions + "    Money: " + money + "   Buys: " + buys;
+        GUI.Box(new Rect(5, Screen.height - 40, Screen.width -115, 35), stats);
+        if (!buyPhase) {
+            if (GUI.Button(new Rect(Screen.width - 105, Screen.height - 40, 100, 35), "Buy cards")) {
+                buyPhase = true;
+                foreach (Card card in cards) {
+                    if (card.Cost > money) {
+                        card.GreyOut();
+                    }
+                }
+                cam.ChangeViewTo(Cam.Views.Table);
+            }
+        }
+        else {
+            if (GUI.Button(new Rect(Screen.width - 105, Screen.height - 40, 100, 35), "End turn")) {
+                buyPhase = false;
+                foreach (Card card in cards) {
+                    card.UnGreyOut();
+                }
+                cam.ChangeViewTo(Cam.Views.Hand);
+                StartCoroutine(EndCurrentTurn());
+            }
+            if (!seeOnlyActionCards) {
+                if (GUI.Button(new Rect(Screen.width / 2 - 100, 20, 200, 20), "See only action cards.")) {
+                    seeOnlyActionCards = true;
+                    cam.ChangeViewTo(Cam.Views.ActionCards);
+                }
+            }
+            else {
+                if (GUI.Button(new Rect(Screen.width / 2 - 100, 20, 200, 20), "See all cards.")) {
+                    seeOnlyActionCards = false;
+                    cam.ChangeViewTo(Cam.Views.Table);
+                }
+            }
+        }
+    }
 }

@@ -27,7 +27,7 @@ public class Game : MonoBehaviour {
     {
         //Initialize the base stack first thing.
 //		CardStack big_stack = new CardStack(AbsolutePosition(3,3));
-        string[] chosenCards = new string[]{"Village", "Adventurer", "Bureaucrat", "Cellar", "CouncilRoom", "Laboratory", "Festival", "Smithy", "Witch", "Woodcutter"};
+        string[] chosenCards = new string[]{"Adventurer", "Bureaucrat", "CouncilRoom", "Laboratory", "Festival", "Smithy", "Witch", "Woodcutter", "Cellar", "Chancellor"};
         for (int j = 0; j < chosenCards.Length; j++)
         {
             for (int i = 0; i < 10; i++) bigStack.Push(CreateCard(chosenCards[j], "base"));
@@ -44,17 +44,17 @@ public class Game : MonoBehaviour {
         // Money, money, money
         for (int i = 0; i < 60; i++)
         {
-            yield return new WaitForSeconds(DELAY);
+            //yield return new WaitForSeconds(DELAY);
             copperStack.Push(bigStack.Pop());
         }
         for (int i = 0; i < 40; i++)
         {
-            yield return new WaitForSeconds(DELAY);
+            //yield return new WaitForSeconds(DELAY);
             silverStack.Push(bigStack.Pop());
         }
         for (int i = 0; i < 30; i++)
         {
-            yield return new WaitForSeconds(DELAY);
+            //yield return new WaitForSeconds(DELAY);
             goldStack.Push(bigStack.Pop());
         }
 
@@ -62,35 +62,36 @@ public class Game : MonoBehaviour {
 
         for (int i = 0; i < 24; i++)
         {
-            yield return new WaitForSeconds(DELAY);
+            //yield return new WaitForSeconds(DELAY);
             estateStack.Push(bigStack.Pop());
         }
         for (int i = 0; i < 12; i++)
         {
-            yield return new WaitForSeconds(DELAY);
+            //yield return new WaitForSeconds(DELAY);
             duchyStack.Push(bigStack.Pop());
         }
         for (int i = 0; i < 12; i++)
         {
-            yield return new WaitForSeconds(DELAY);
+            //yield return new WaitForSeconds(DELAY);
             provinceStack.Push(bigStack.Pop());
         }
         for (int i = 0; i < 30; i++)
         {
-            yield return new WaitForSeconds(DELAY);
+            //yield return new WaitForSeconds(DELAY);
             curseStack.Push(bigStack.Pop());
         }
         for (int i = 0; i < chosenCards.Length; i++)
         {
             for (int j = 0; j < 10; j++)
             {
-                yield return new WaitForSeconds(DELAY);
+                //yield return new WaitForSeconds(DELAY);
                 chosenCardStacks[i].Push(bigStack.Pop());
             }
         }
       
         // Build draw stack
         float tmpdelay = 0.25f;
+        
         for (int i = 0; i < 7; i++)
         {
             yield return new WaitForSeconds(tmpdelay);
@@ -101,16 +102,15 @@ public class Game : MonoBehaviour {
             yield return new WaitForSeconds(tmpdelay);
             drawStack.Push(estateStack.Pop());
         }
-
-        /*
+        
         // TESTING
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
             yield return new WaitForSeconds(tmpdelay);
             drawStack.Push(chosenCardStacks[0].Pop());
         }
         // END TESTING
-        */
+        
 		
 		yield return StartCoroutine(drawStack.Shuffle());
 		yield return StartCoroutine(player.DrawNewCards(5));
@@ -158,18 +158,13 @@ public class Game : MonoBehaviour {
 	}
 	
 	public void Update(){
-		if (Input.GetButtonDown("Jump")) {
-			StartCoroutine(EndTurn());
-		}
 	}
-	
-	IEnumerator EndTurn() {
-		yield return StartCoroutine(player.EndTurn());
-		playedStack.MoveAllCardsToStack(rubbishStack, true);
-		yield return new WaitForSeconds(1.0f);
-        player.BeginNewTurn();
-		yield return StartCoroutine(player.DrawNewCards(5));
-	}
+
+
+    public static Rect CenteredRectangle(int width, int height,int xOffset, int yOffset){
+        return new Rect((Screen.width-width)/2 + xOffset, (Screen.height-height)/2 + yOffset, width, height);
+    }
+        
 }
 
 public class Settings{
