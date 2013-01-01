@@ -9,7 +9,7 @@ public class Village : Card
 
     public override IEnumerator Play(Player player)
     {
-        player.IncreaseActions(2);
+        player.Actions+=2;
         player.DrawCards(1);
         return null;
     } 

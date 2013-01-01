@@ -20,6 +20,7 @@ public class Game : MonoBehaviour {
 	public Player player;
 	// Camera
 	public Cam cam;
+    public GUIManager GuiManager;
 	private const float DELAY = 0.0001f; // TMP: was 0.15f
 	
 	// Use this for initialization
@@ -27,7 +28,7 @@ public class Game : MonoBehaviour {
     {
         //Initialize the base stack first thing.
 //		CardStack big_stack = new CardStack(AbsolutePosition(3,3));
-        string[] chosenCards = new string[]{"Adventurer", "Bureaucrat", "CouncilRoom", "Laboratory", "Festival", "Smithy", "Witch", "Woodcutter", "Cellar", "Chancellor"};
+        string[] chosenCards = new string[]{"Adventurer", "Bureaucrat", "CouncilRoom", "Laboratory", "Festival", "Smithy", "Witch", "Cellar", "Chancellor", "Chapel"};
         for (int j = 0; j < chosenCards.Length; j++)
         {
             for (int i = 0; i < 10; i++) bigStack.Push(CreateCard(chosenCards[j], "base"));
@@ -113,11 +114,8 @@ public class Game : MonoBehaviour {
         
 		
 		yield return StartCoroutine(drawStack.Shuffle());
-		yield return StartCoroutine(player.DrawNewCards(5));
-	}
-	
-	public IEnumerator MakeDrawStack() {
-		yield return new WaitForSeconds(2.0f);
+		yield return StartCoroutine(player.hand.DrawNewCards(5));
+        GuiManager.ChangeMode(new ActionMode(player));
 	}
 	
 	Card CreateCard(string name, string expansion){
@@ -130,41 +128,6 @@ public class Game : MonoBehaviour {
         cardObject.AddComponent(name);
         return cardObject.GetComponent<Card>();
 	}
-	
-	IEnumerator PlayIn(float secs){
-		yield return new WaitForSeconds(secs);
-		audio.Play();
-	}
-
-	IEnumerator PutCardOnStack(Card card, CardStack stack, float delay){
-		yield return new WaitForSeconds(delay);
-		stack.Push (card);
-	}
-	
-	IEnumerator SetUpDrawStack(float delay){
-		yield return new WaitForSeconds(delay);
-		float tmpdelay = 0.5f;
-		for (int i=0; i<7; i++)
-			StartCoroutine(PutCardOnStack(copperStack.Pop(), drawStack, i*tmpdelay));
-		for (int i=0; i<3; i++)
-			StartCoroutine(PutCardOnStack(estateStack.Pop(), drawStack, i*tmpdelay + 7*tmpdelay));
-		for (int i=0; i<5; i++)
-			StartCoroutine(DrawCardFromStack(drawStack, i*tmpdelay + 10*tmpdelay));
-	}
-	
-	IEnumerator DrawCardFromStack(CardStack stack, float delay){
-		yield return new WaitForSeconds(delay);
-		player.DrawCard(stack.Pop());
-	}
-	
-	public void Update(){
-	}
-
-
-    public static Rect CenteredRectangle(int width, int height,int xOffset, int yOffset){
-        return new Rect((Screen.width-width)/2 + xOffset, (Screen.height-height)/2 + yOffset, width, height);
-    }
-        
 }
 
 public class Settings{

@@ -10,7 +10,7 @@ public class CouncilRoom : Card
     public override IEnumerator Play(Player player)
     {
         player.DrawCards(4);
-        player.IncreaseBuys(1);
+        player.Buys++;
         //TODO: Have each other player draw a card.
         return null;
     }

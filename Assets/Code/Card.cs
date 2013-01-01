@@ -22,9 +22,10 @@ public abstract class Card : MonoBehaviour {
     
 
     public void OnMouseDown() {
+		Debug.Log("Handler for " + gameObject.name);
 		if (CardClicked != null) {
 			CardClicked(this);
-		}
+		} 
 	}
 
     public void GreyOut() {

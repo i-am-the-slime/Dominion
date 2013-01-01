@@ -9,7 +9,7 @@ public class Silver : Card
 
     public override IEnumerator Play(Player player)
     {
-        player.IncreaseMoney(2);
+        player.Money+=2;
         return null;
     }
 }

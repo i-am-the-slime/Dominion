@@ -9,9 +9,9 @@ public class Festival : Card
 
     public override IEnumerator Play(Player player)
     {
-        player.IncreaseActions(2);
-        player.IncreaseBuys(1);
-        player.IncreaseMoney(2);
+        player.Actions+=2;
+        player.Buys+=1;
+        player.Money+=2;
         return null;
     }
 }

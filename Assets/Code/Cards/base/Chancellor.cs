@@ -7,7 +7,7 @@ public class Chancellor : Card {
     public override CardFlags Flags { get { return CardFlags.Action; } }
     private Player player;
     public override IEnumerator Play(Player player) {
-        player.IncreaseMoney(2);
+        player.Money+=2;
         this.player = player;
         GUIManager.modalDialogue = new ModalDialogue("Do you want to put your deck onto your discard pile?", YesCallback, NoCallback);
         return null;

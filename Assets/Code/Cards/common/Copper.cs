@@ -9,7 +9,7 @@ public class Copper : Card
 
     public override IEnumerator Play(Player player)
     {
-        player.IncreaseMoney(1);
+        player.Money++;
         return null;
     }
 }

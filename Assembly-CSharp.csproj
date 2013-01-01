@@ -51,6 +51,7 @@
      <Compile Include="Assets\Code\Cards\base\Bureaucrat.cs" />
      <Compile Include="Assets\Code\Cards\base\Cellar.cs" />
      <Compile Include="Assets\Code\Cards\base\Chancellor.cs" />
+     <Compile Include="Assets\Code\Cards\base\Chapel.cs" />
      <Compile Include="Assets\Code\Cards\base\CouncilRoom.cs" />
      <Compile Include="Assets\Code\Cards\base\Curse.cs" />
      <Compile Include="Assets\Code\Cards\base\Festival.cs" />
@@ -66,9 +67,15 @@
      <Compile Include="Assets\Code\Cards\common\Province.cs" />
      <Compile Include="Assets\Code\Cards\common\Silver.cs" />
      <Compile Include="Assets\Code\EventManager.cs" />
+     <Compile Include="Assets\Code\GUI\ActionMode.cs" />
+     <Compile Include="Assets\Code\GUI\BuyMode.cs" />
+     <Compile Include="Assets\Code\GUI\CardSelectionMode.cs" />
      <Compile Include="Assets\Code\GUI\GUIManager.cs" />
+     <Compile Include="Assets\Code\GUI\GUIMode.cs" />
      <Compile Include="Assets\Code\GUI\ModalDialogue.cs" />
+     <Compile Include="Assets\Code\GUI\WatchMode.cs" />
      <Compile Include="Assets\Code\Game.cs" />
+     <Compile Include="Assets\Code\Hand.cs" />
      <Compile Include="Assets\Code\Player.cs" />
      <Compile Include="Assets\iTween\Plugins\iTween.cs" />
      <Compile Include="Assets\iTween\Sample\MoveSample.cs" />

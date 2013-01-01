@@ -9,8 +9,8 @@ public class Woodcutter : Card
 
     public override IEnumerator Play(Player player)
     {
-        player.IncreaseBuys(1);
-        player.IncreaseMoney(2);
+        player.Buys++;
+        player.Money+=2;
         
         return null;
     }

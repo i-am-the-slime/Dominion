@@ -9,7 +9,7 @@ public class Laboratory : Card
 
     public override IEnumerator Play(Player player)
     {
-        player.IncreaseActions(1);
+        player.Actions++;
         player.DrawCards(2);
         return null;
     }

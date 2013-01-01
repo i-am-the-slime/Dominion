@@ -9,7 +9,7 @@ public class Gold : Card
 
     public override IEnumerator Play(Player player)
     {
-        player.IncreaseMoney(3);
+        player.Money+=3;
         return null;
     }
 }
