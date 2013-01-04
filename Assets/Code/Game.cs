@@ -17,7 +17,7 @@ public class Game : MonoBehaviour {
 	public CardStack bigStack;
 	public CardStack[] chosenCardStacks;
 	// Hand cards
-	public Player player;
+	public Player[] players;
 	// Camera
 	public Cam cam;
     public GUIManager GuiManager;
@@ -27,13 +27,17 @@ public class Game : MonoBehaviour {
     private IEnumerator Start()
     {
         //Initialize the base stack first thing.
-//		CardStack big_stack = new CardStack(AbsolutePosition(3,3));
-        string[] chosenCards = new string[]{"Adventurer", "Bureaucrat", "CouncilRoom", "Laboratory", "Festival", "Smithy", "Witch", "Cellar", "Chancellor", "Chapel"};
+        //		CardStack big_stack = new CardStack(AbsolutePosition(3,3));
+        string[] chosenCards = new string[]
+            {
+                "Adventurer", "Bureaucrat", "CouncilRoom", "Laboratory", "Festival", "Smithy", "Witch", "Cellar",
+                "Chancellor", "Chapel"
+            };
         for (int j = 0; j < chosenCards.Length; j++)
         {
             for (int i = 0; i < 10; i++) bigStack.Push(CreateCard(chosenCards[j], "base"));
         }
-        
+
         for (int i = 0; i < 30; i++) bigStack.Push(CreateCard("Curse", "base"));
         for (int i = 0; i < 12; i++) bigStack.Push(CreateCard("Province", "common"));
         for (int i = 0; i < 12; i++) bigStack.Push(CreateCard("Duchy", "common"));
@@ -89,36 +93,40 @@ public class Game : MonoBehaviour {
                 chosenCardStacks[i].Push(bigStack.Pop());
             }
         }
-      
+
         // Build draw stack
         float tmpdelay = 0.25f;
-        
-        for (int i = 0; i < 7; i++)
-        {
-            yield return new WaitForSeconds(tmpdelay);
-            drawStack.Push(copperStack.Pop());
-        }
-        for (int i = 0; i < 3; i++)
-        {
-            yield return new WaitForSeconds(tmpdelay);
-            drawStack.Push(estateStack.Pop());
-        }
-        
-        // TESTING
+
+        // TESTING 
+        /*
         for (int i = 0; i < 5; i++)
         {
             yield return new WaitForSeconds(tmpdelay);
             drawStack.Push(chosenCardStacks[0].Pop());
         }
+        */
         // END TESTING
-        
-		
-		yield return StartCoroutine(drawStack.Shuffle());
-		yield return StartCoroutine(player.hand.DrawNewCards(5));
-        GuiManager.ChangeMode(new ActionMode(player));
-	}
-	
-	Card CreateCard(string name, string expansion){
+
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            for (int j = 0; j < 7; j++)
+            {
+                yield return new WaitForSeconds(tmpdelay);
+                players[i].drawStack.Push(copperStack.Pop());
+            }
+            for (int j = 0; j < 3; j++)
+            {
+                yield return new WaitForSeconds(tmpdelay);
+                players[i].drawStack.Push(estateStack.Pop());
+            }
+            yield return StartCoroutine(drawStack.Shuffle());
+            yield return StartCoroutine(players[i].hand.DrawNewCards(5));
+        }
+        GuiManager.ChangeMode(new ActionMode(players[0]));
+    }
+
+    Card CreateCard(string name, string expansion){
 		GameObject cardObject = Instantiate(Resources.Load("Prefabs/card")) as GameObject;
 		Material[] materials = cardObject.renderer.materials;
 		Texture2D tex = (Texture2D) (Resources.Load("Textures/"+Settings.LANG+"/"+expansion+"/"+name.ToLower()));

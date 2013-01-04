@@ -8,6 +8,7 @@ public class GUIManager : MonoBehaviour
     public Player player;
     private GUISkin _skin;
     private GUIMode _mode;
+    public Game game;
     
     public void ChangeMode(GUIMode mode)
     {
@@ -70,6 +71,7 @@ public class GUIManager : MonoBehaviour
 					Debug.Log("Beginning new Action mode for next player");
                     ChangeMode(new ActionMode(player.leftNeighbour));
                     player = player.leftNeighbour;
+                    game.cam.ChangeViewTo(player);
                 } 
                 break;
             case "Watch":

@@ -22,8 +22,15 @@ public class Cam : MonoBehaviour {
                 break;
 			default:
 				return;
-		}	
+		}
 		iTween.MoveTo(gameObject, pos, 2.0f);
 		iTween.RotateTo(gameObject,  rot, 2.0f);	
 	}
+
+    public void ChangeViewTo(Player player)
+    {
+        Vector3 pos = gameObject.transform.position;
+        pos.x = player.transform.position.x;
+        iTween.MoveTo(gameObject, pos, 2.0f);
+    }
 }
